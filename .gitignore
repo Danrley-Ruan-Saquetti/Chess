@@ -1,5 +1,5 @@
 node_modules
 .vscode
-dist
-**/**/*.css
-**/**/*.css.map
+# dist
+# **/**/*.css
+# **/**/*.css.map
