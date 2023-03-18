@@ -1,0 +1,121 @@
+$house-dimension: min(calc(90vw - 6rem), 55rem);
+$house-dimension-grid: calc($house-dimension / 8);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+@mixin flex {
+    display: flex;
+}
+
+@mixin center {
+    @include flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    @include center;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    font-size: 1.6rem;
+    background-color: #dfdfdf;
+    padding: 3rem;
+}
+
+.game {
+    position: relative;
+    @include center;
+    border-radius: .3rem;
+    background-color: #fff;
+    filter: drop-shadow(0 0 2px #0005);
+    padding: 3rem;
+    .house {
+        &.black {
+            background-color: #769656;
+        }
+        &.white {
+            background-color: #eeeed2;
+        }
+        &.last-lance-target,
+        &.last-lance-initial,
+        &.selected {
+            &.black {
+                background-color: #baca2b
+            }
+            &.white {
+                background-color: #f6f669;
+            }
+        }
+        .piece {
+            @include center;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            overflow: hidden;
+            cursor: pointer;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                pointer-events: none;
+            }
+        }
+    }
+    .type-promotions {
+        display: none;
+        position: absolute;
+        width: calc($house-dimension-grid * 4 + 1rem);
+        height: calc($house-dimension-grid + 1rem);
+        z-index: 100;
+        filter: drop-shadow(0 0 5px #0009);
+        &.active {
+            @include flex;
+        }
+        .house {
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+        }
+        .piece {
+            pointer-events: none;
+        }
+    }
+    .board {
+        display: grid;
+        grid-template-columns: $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid;
+        grid-template-rows: $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid $house-dimension-grid;
+        width: $house-dimension;
+        height: $house-dimension;
+        background-color: #fff;
+        filter: drop-shadow(0 0 2px #0005);
+        .piece {
+            pointer-events: none;
+        }
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        &.white {
+            .piece.white {
+                pointer-events: all;
+            }
+        }
+        &.black {
+            .piece.black {
+                pointer-events: all;
+            }
+        }
+        &:has(.house.selected) .house {
+            cursor: pointer;
+        }
+    }
+}

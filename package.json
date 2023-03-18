@@ -1,0 +1,16 @@
+{
+    "name": "chess",
+    "version": "1.0.0",
+    "description": "",
+    "main": "script.js",
+    "scripts": {
+        "build-w": "npx tsc -w",
+        "build": "npx tsc"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^4.9.5"
+    }
+}
