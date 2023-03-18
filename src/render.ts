@@ -1,5 +1,5 @@
 import dataGame from "./data/data-game.js"
-import { BoardCoordinates, IPiece, TypePiece, TypePromotion, TypeSide } from "./model/model-game.js"
+import { BoardCoordinates, IPiece, TypePiece, TypeSide } from "./model/model-game.js"
 import generatedId from "./util/generated-id.js"
 
 export default function ControlRender() {

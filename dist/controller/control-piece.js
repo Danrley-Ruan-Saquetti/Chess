@@ -1,6 +1,6 @@
 import dataGame from "../data/data-game.js";
 import generatedId from "../util/generated-id.js";
-import { RULE_PIECES, POSITION_INITIAL, SIZE_BOARD } from "../util/rules.js";
+import { RULE_PIECES, POSITION_INITIAL, SIZE_BOARD, ALL_DIRECTIONS } from "../util/rules.js";
 import BoardControl from "./control-board.js";
 import HistoryControl from "./control-history.js";
 export default function PieceControl() {
@@ -30,6 +30,9 @@ export default function PieceControl() {
             const piece = createPiece(pos.type, pos.side);
             addPiece({ piece, ...pos });
         });
+    };
+    const verifyIsDiagonal = ({ position, target }) => {
+        return position.x != target.x && position.y != position.y;
     };
     const start = () => {
         createBoardPieces();
@@ -175,6 +178,19 @@ export default function PieceControl() {
             if (pi.side == side) {
                 continue;
             }
+            if (verifyIsDiagonal({ position, target: directions[i] })) {
+                if (pi.type != "bishop" && pi.type != "queen" && pi.type != "pawn") {
+                    continue;
+                }
+                if (pi.type == "pawn" && !findCheckPawn({ position, side, board })) {
+                    continue;
+                }
+            }
+            else {
+                if (pi.type != "rook" && pi.type != "queen") {
+                    continue;
+                }
+            }
             piece = pi;
         }
         if (!piece) {
@@ -197,16 +213,8 @@ export default function PieceControl() {
         if (findCheckHorse({ position, side, board }).valueOf) {
             return true;
         }
-        const pieceDiagonal = findCheckSomeLine({ position, side, directions: [{ x: -1, y: -1 }, { x: -1, y: 1 }, { x: 1, y: -1 }, { x: 1, y: 1 }], board });
-        if (pieceDiagonal && (pieceDiagonal.type == "bishop" || pieceDiagonal.type == "queen" || pieceDiagonal.type == "pawn")) {
-            if (pieceDiagonal.type == "pawn") {
-                const piecePawn = findCheckPawn({ position, side, board });
-                return piecePawn;
-            }
-            return true;
-        }
-        const pieceStraight = findCheckSomeLine({ position, side, directions: [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: -1, y: 0 }], board });
-        if (pieceStraight && (pieceStraight.type == "rook" || pieceStraight.type == "queen")) {
+        const pieceAttack = findCheckSomeLine({ position, side, directions: ALL_DIRECTIONS, board });
+        if (pieceAttack) {
             return true;
         }
         return false;
@@ -221,7 +229,7 @@ export default function PieceControl() {
             if (!pos) {
                 return false;
             }
-            const validMove = validMovePiece({ position: pos, target: position, board: boardControl.getBoardState(), promotion: "queen" });
+            const validMove = validMovePiece({ position: pos, target: position, board: boardControl.getBoardState(board), promotion: "queen" });
             if (!validMove.valueOf) {
                 return false;
             }
@@ -239,18 +247,8 @@ export default function PieceControl() {
             }
         }
         const getPieceMoveToHouse = ({ position }) => {
-            const directions = [
-                { x: 0, y: 1 },
-                { x: -1, y: -1 },
-                { x: -1, y: 0 },
-                { x: -1, y: -1 },
-                { x: 0, y: -1 },
-                { x: 1, y: -1 },
-                { x: 1, y: 0 },
-                { x: 1, y: 1 },
-            ];
-            for (let i = 0; i < directions.length; i++) {
-                const pieceBlock = verifySomeLine({ position, board, direction: directions[i] });
+            for (let i = 0; i < ALL_DIRECTIONS.length; i++) {
+                const pieceBlock = verifySomeLine({ position, board, direction: ALL_DIRECTIONS[i] });
                 if (pieceBlock && pieceBlock.side == pieceKing.side && attemptMove({ piece: pieceBlock, position })) {
                     return pieceBlock;
                 }
@@ -295,18 +293,8 @@ export default function PieceControl() {
             }
             return true;
         }
-        const pieceDiagonal = findCheckSomeLine({ position: positionKing, side, directions: [{ x: -1, y: -1 }, { x: -1, y: 1 }, { x: 1, y: -1 }, { x: 1, y: 1 }], board });
-        if (pieceDiagonal && (pieceDiagonal.type == "bishop" || pieceDiagonal.type == "queen" || pieceDiagonal.type == "pawn")) {
-            if (blockAttack({ piece: pieceDiagonal })) {
-                return false;
-            }
-            return true;
-        }
-        const pieceStraight = findCheckSomeLine({ position: positionKing, side, directions: [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }], board });
-        if (pieceStraight && (pieceStraight.type == "rook" || pieceStraight.type == "queen")) {
-            if (blockAttack({ piece: pieceStraight })) {
-                return false;
-            }
+        const pieceAttack = findCheckSomeLine({ position: positionKing, side, directions: ALL_DIRECTIONS, board });
+        if (pieceAttack && !blockAttack({ piece: pieceAttack })) {
             return true;
         }
         return false;
@@ -638,19 +626,9 @@ export default function PieceControl() {
     };
     return {
         start,
-        findAcceptableMove,
-        findPieceBlockTarget,
-        findCheckHorse,
-        findCheckPawn,
-        findCheckSomeLine,
         getPiece,
         getKing,
         findCheck,
-        verifySameDiagonal,
-        verifySameStraight,
-        verifySomeLine,
-        verifyRealNail,
-        verifySwapKing,
         validPromotion,
         validMovePiece,
         verifyCheckMate,

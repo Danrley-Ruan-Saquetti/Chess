@@ -76,3 +76,5 @@ export const POSITION_INITIAL: { type: TypePiece, positions: BoardCoordinates[] 
     { type: "queen", positions: [{ x: 0, y: 3 }] },
     { type: "king", positions: [{ x: 0, y: 4 }] },
 ]
+
+export const ALL_DIRECTIONS = [{ x: -1, y: -1 }, { x: -1, y: 1 }, { x: 1, y: -1 }, { x: 1, y: 1 }, { x: 0, y: -1 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: -1, y: 0 }]

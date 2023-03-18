@@ -1,4 +1,4 @@
-import { BoardCoordinates, IAction, TypeActionArray, TypeBoard, TypeMove, TypePromotion, TypeSide, TypeWinner } from "../model/model-game"
+import { BoardCoordinates, TypeActionArray, TypeBoard, TypeMove, TypePromotion, TypeSide, TypeWinner } from "../model/model-game"
 import dataGame from "../data/data-game.js";
 import BoardControl from "./control-board.js";
 import HistoryControl from "./control-history.js";

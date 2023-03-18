@@ -1,5 +1,5 @@
 import dataGame from "../data/data-game.js"
-import { BoardCoordinates, IPiece, TypeBoard, TypeSide } from "../model/model-game"
+import { BoardCoordinates, IPiece, TypeBoard } from "../model/model-game"
 import { SIZE_BOARD } from "../util/rules.js"
 
 export default function BoardControl() {
