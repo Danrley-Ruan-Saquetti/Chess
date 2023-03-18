@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  font-size: 1.6rem;
+  background-color: #dfdfdf;
+  padding: 3rem;
+}
+
+.game {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3333333333));
+  padding: 3rem;
+}
+.game .house.black {
+  background-color: #769656;
+}
+.game .house.white {
+  background-color: #eeeed2;
+}
+.game .house.last-lance-target.black, .game .house.last-lance-initial.black, .game .house.selected.black {
+  background-color: #baca2b;
+}
+.game .house.last-lance-target.white, .game .house.last-lance-initial.white, .game .house.selected.white {
+  background-color: #f6f669;
+}
+.game .house .piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  overflow: hidden;
+  cursor: pointer;
+}
+.game .house .piece img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  pointer-events: none;
+}
+.game .type-promotions {
+  display: none;
+  position: absolute;
+  width: calc(min(90vw - 6rem, 55rem) / 8 * 4 + 1rem);
+  height: calc(min(90vw - 6rem, 55rem) / 8 + 1rem);
+  z-index: 100;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.6));
+}
+.game .type-promotions.active {
+  display: flex;
+}
+.game .type-promotions .house {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+.game .type-promotions .piece {
+  pointer-events: none;
+}
+.game .board {
+  display: grid;
+  grid-template-columns: calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8);
+  grid-template-rows: calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8) calc(min(90vw - 6rem, 55rem) / 8);
+  width: min(90vw - 6rem, 55rem);
+  height: min(90vw - 6rem, 55rem);
+  background-color: #fff;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3333333333));
+}
+.game .board .piece {
+  pointer-events: none;
+}
+.game .board * {
+  -moz-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+.game .board.white .piece.white {
+  pointer-events: all;
+}
+.game .board.black .piece.black {
+  pointer-events: all;
+}
+.game .board:has(.house.selected) .house {
+  cursor: pointer;
+}/*# sourceMappingURL=style.css.map */
